@@ -1,2 +1,10 @@
-package Tutorial;public class NumberOfThis {
+package Tutorial;
+
+public class NumberOfThis {
+
+    int a;
+
+    public NumberOfThis(int a) {
+        this.a = a;
+    }
 }

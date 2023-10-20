@@ -1,2 +1,5 @@
-package newGui;public class dao {
+package newGui;
+
+public class dao {
+
 }

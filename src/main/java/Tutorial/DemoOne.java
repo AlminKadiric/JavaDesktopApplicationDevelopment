@@ -1,2 +1,9 @@
-package Tutorial;public class DemoOne {
+package Tutorial;
+
+public class DemoOne {
+    public static void main(String[] args) {
+
+    }
+
+
 }
