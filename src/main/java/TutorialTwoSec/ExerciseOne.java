@@ -14,10 +14,10 @@ public class ExerciseOne {
         double numberOne = 11.4;
         int numberTwo = 10;
 
-        result = (int) numberOne + numberTwo;
-        System.out.println(result);
+      double resultOne =(int)  numberOne +  numberTwo;
+        System.out.println(resultOne);
 
-        System.out.println(Math.round(numberOne));
+
 
 
 

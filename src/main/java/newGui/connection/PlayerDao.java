@@ -19,7 +19,7 @@ public class PlayerDao implements Dao<Player> {
         ConnectionPool.getINSTANCE().releaseConnection(connection);
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
             ResultSet resultSet = preparedStatement.executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 Player player = new Player();
                 player.setId(resultSet.getLong(1));
                 player.setName(resultSet.getString("name"));
@@ -37,7 +37,8 @@ public class PlayerDao implements Dao<Player> {
 
         return players;
     }
-    public List<String> getColumnNames(){
+
+    public List<String> getColumnNames() {
         List<String> columnNames = new ArrayList<>();
 
         String sqlQuery = "SELECT * FROM players";
@@ -46,14 +47,13 @@ public class PlayerDao implements Dao<Player> {
         ConnectionPool.getINSTANCE().releaseConnection(connection);
         try (PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery)) {
             ResultSet resultSet = preparedStatement.executeQuery();
-           ResultSetMetaData resultSetMetaData =  resultSet.getMetaData();
-           int columnCount = resultSetMetaData.getColumnCount();
-            for (int i = 1; i <=columnCount ; i++) {
-               String columnName =  resultSetMetaData.getColumnName(i);
+            ResultSetMetaData resultSetMetaData = resultSet.getMetaData();
+            int columnCount = resultSetMetaData.getColumnCount();
+            for (int i = 1; i <= columnCount; i++) {
+                String columnName = resultSetMetaData.getColumnName(i);
                 columnNames.add(columnName);
 
 
-                
             }
             ConnectionPool.getINSTANCE().releaseConnection(connection);
 
@@ -72,11 +72,38 @@ public class PlayerDao implements Dao<Player> {
     }
 
     @Override
-    public Player update(Player entity) {
+    public Player update(Player player) {
+
+        String sqlUpdate = """
+                UPDATE players SET name = ?,
+                 surname = ?,
+                  sport = ?,
+                  of_years = ?,
+                  vegeterian = ?, 
+                  favourite_color = ? WHERE id = ?
+                  """;
+        Connection connection = ConnectionPool.getINSTANCE().getConnection();
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sqlUpdate)) {
+            preparedStatement.setString(1, player.getName());
+            preparedStatement.setString(2, player.getSurname());
+            preparedStatement.setString(3, player.getSport());
+            preparedStatement.setInt(4, player.getOfYears());
+            preparedStatement.setBoolean(5, player.getVegetarian());
+            preparedStatement.setString(6, player.getColor());
+            preparedStatement.setLong(7, player.getId());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println(e.getMessage());
+        }finally {
+            ConnectionPool.getINSTANCE().releaseConnection(connection);
 
 
-        return null;
+        }
+
+        return player;
     }
+
 
     @Override
     public boolean delete(Player entity) {
